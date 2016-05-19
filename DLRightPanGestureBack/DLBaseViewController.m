@@ -18,15 +18,18 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    //1.创建滑动手势，taregt设置interactivePopGestureRecognizer的target，所以当界面滑动的时候就会自动调用target的action方法。handleNavigationTransition是私有类_UINavigationInteractiveTransition的方法，系统主要在这个方法里面实现动画的。
+    //1.获取系统interactivePopGestureRecognizer对象的target对象
+    id target = self.navigationController.interactivePopGestureRecognizer.delegate;
+    //2.创建滑动手势，taregt设置interactivePopGestureRecognizer的target，所以当界面滑动的时候就会自动调用target的action方法。
+    //handleNavigationTransition是私有类_UINavigationInteractiveTransition的方法，系统主要在这个方法里面实现动画的。
     UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] init];
-    [pan addTarget:self.navigationController.interactivePopGestureRecognizer.delegate action:NSSelectorFromString(@"handleNavigationTransition:")];
-    //2.设置代理
+    [pan addTarget:target action:NSSelectorFromString(@"handleNavigationTransition:")];
+    //3.设置代理
     pan.delegate = self;
-    //3.添加到导航控制器的视图上
+    //4.添加到导航控制器的视图上
     [self.navigationController.view addGestureRecognizer:pan];
     
-    //4.禁用系统的滑动手势
+    //5.禁用系统的滑动手势
     self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     
     
